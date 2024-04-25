@@ -17,10 +17,19 @@ import network
 import gc
 gc.collect()
 
+def load_env():
+    env = {}
+    f = open('.env', 'r')
+    for line in f:
+        key, value = line.strip().split('=')
+        env[key] = value
+    return env
 
-ssid = "CNLab-wifi"
-password = "uoacnlab2023"
-url = "https://ntfy.sh/aaasssuuu"
+env = load_env()
+
+ssid = env["SSID"]
+password = env["PASSWORD"]
+url = env["URL"]
 
 station = network.WLAN(network.STA_IF)
 
@@ -41,5 +50,5 @@ while True:
     print("Temperature: {}".format(sensor.temperature()))
     print("Humidity: {}".format(sensor.humidity()))
 
-    if sensor.temperature() > 27.0:
+    if sensor.temperature() > 28.0:
         res = requests.post(url, data="labo is too hot")
