@@ -2,7 +2,7 @@
 
 ## dependency
 ```
-rasberry pico w
+raspberry pico w
 DHT11
 breadboard
 wire
