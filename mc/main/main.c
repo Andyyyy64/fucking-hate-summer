@@ -9,16 +9,18 @@
 
 #define DHT_GPIO 4
 #define POST_INTERVAL (1 * 60 * 1000) // 1 minutes
-#define API_URL "https://localhost:3000/api/data"
+#define API_URL "https://fucking-hate-summer.onrender.com/data/add"
 
 esp_err_t post_sensor_data(int temp, int humi) {
     char post_data[100];
-    snprintf(post_data, sizeof(post_data), "{\"temperature\": %d, \"humidity\": %d}", temp, humi);
+    snprintf(post_data, sizeof(post_data), "{\"temp\": %d, \"humi\": %d}", temp, humi);
     
-    esp_http_client_config_t config = {
-        .url = API_URL,
-        .method = HTTP_METHOD_POST,
-    };
+esp_http_client_config_t config = {
+    .url = API_URL,
+    .method = HTTP_METHOD_POST,
+    .timeout_ms = 10000, // Increase timeout to 10 seconds
+};
+
 
     esp_http_client_handle_t client = esp_http_client_init(&config);
     esp_http_client_set_header(client, "Content-Type", "application/json");
@@ -28,7 +30,7 @@ esp_err_t post_sensor_data(int temp, int humi) {
     if (err == ESP_OK) {
         ESP_LOGI(TAG, "OK");
     } else {
-        ESP_LOGI(TAG, "HTTP POST request failed");
+        ESP_LOGI(TAG, "HTTP POST request failed: %s", esp_err_to_name(err));
     };
 
     esp_http_client_cleanup(client);

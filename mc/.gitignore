@@ -1,3 +1,4 @@
 .micropico
 .env
 build
+sdkconfig.old
