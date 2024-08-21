@@ -17,6 +17,7 @@ export const addData = async (req: Request, res: Response): Promise<void> => {
       created_at,
       location,
     ]);
+    console.log("Data added successfully");
     res.json({ message: "Data added successfully" });
   } catch (err) {
     console.log(err);
