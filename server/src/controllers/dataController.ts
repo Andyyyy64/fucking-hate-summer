@@ -24,3 +24,14 @@ export const addData = async (req: Request, res: Response): Promise<void> => {
     res.json({ message: "Failed to add data" });
   }
 };
+
+export const getData = async (req: Request, res: Response): Promise<void> => {
+  try {
+    const data = await db.all("SELECT * FROM data");
+    console.log("Data fetched successfully");
+    res.json({ data });
+  } catch(err) {
+    console.log(err);
+    res.json({ message: "Failed to fetch data" });
+  }
+} 
