@@ -8,7 +8,7 @@
 #include "esp_http_client.h"
 
 #define DHT_GPIO 4
-#define POST_INTERVAL (1 * 60 * 1000) // 1 minutes
+#define POST_INTERVAL (1 * 60 * 1000) // 1 min
 #define API_URL "https://fucking-hate-summer.onrender.com/data/add"
 
 esp_err_t post_sensor_data(int temp, int humi) {
@@ -18,9 +18,8 @@ esp_err_t post_sensor_data(int temp, int humi) {
 esp_http_client_config_t config = {
     .url = API_URL,
     .method = HTTP_METHOD_POST,
-    .timeout_ms = 10000, // Increase timeout to 10 seconds
+    .timeout_ms = 10000,
 };
-
 
     esp_http_client_handle_t client = esp_http_client_init(&config);
     esp_http_client_set_header(client, "Content-Type", "application/json");
@@ -46,10 +45,8 @@ void app_main(void) {
 
     ESP_ERROR_CHECK(ret);
 
-    // Initialize Wi-Fi with your SSID and Password
     wifi_init();
 
-    // Initialize DHT11 sensor
     DHT11_init(DHT_GPIO);
     ESP_LOGI(TAG, "DHT11 sensor initialized at GPIO %d", DHT_GPIO);
 
@@ -57,12 +54,11 @@ void app_main(void) {
         if (DHT11_read().status == DHT11_OK) {
             ESP_LOGI(TAG, "Temperature: %d°C, Humidity: %d", DHT11_read().temperature, DHT11_read().humidity);
 
-            // Post the sensor data to the API
             post_sensor_data(DHT11_read().temperature, DHT11_read().humidity);
         } else {
             ESP_LOGI(TAG, "Failed to read from DHT11 sensor");
         }
 
-        vTaskDelay(POST_INTERVAL / portTICK_PERIOD_MS); // Delay for 1 minutes
+        vTaskDelay(POST_INTERVAL / portTICK_PERIOD_MS); // Delay for 1 min
     }
 }

@@ -31,7 +31,7 @@ export const App = () => {
 
     const interval = setInterval(() => {
       fetchData();
-    }, 3000); // 3秒ごとに更新
+    }, 3000);
 
     return () => clearInterval(interval);
   }, [])
