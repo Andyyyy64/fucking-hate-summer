@@ -9,7 +9,7 @@
 
 #define DHT_GPIO 4
 #define POST_INTERVAL (1 * 60 * 1000) // 1 min
-#define API_URL "https://fucking-hate-summer.onrender.com/data/add"
+#define API_URL ""
 
 esp_err_t post_sensor_data(int temp, int humi) {
     char post_data[100];
